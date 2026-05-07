@@ -142,6 +142,39 @@
             </div>
         </div>
 
+        <!-- Slider Settings -->
+        <div class="col-12">
+            <div class="form-card mb-4">
+                <h6 class="fw-bold mb-4"><i class="bi bi-collection-play me-2"></i>Hero Slider Settings</h6>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Auto-play Speed <small class="text-muted">(seconds)</small></label>
+                        <input type="number" name="slider_delay" class="form-control" min="1" max="30"
+                               value="{{ old('slider_delay', intval(($settings['slider_delay'] ?? 9000) / 1000)) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Slider Height <small class="text-muted">(px)</small></label>
+                        <input type="number" name="slider_height" class="form-control" min="300" max="1000"
+                               value="{{ old('slider_height', $settings['slider_height'] ?? 500) }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Navigation Type</label>
+                        <select name="slider_navigation" class="form-select">
+                            <option value="bullet" {{ ($settings['slider_navigation'] ?? 'bullet') === 'bullet' ? 'selected' : '' }}>Bullets</option>
+                            <option value="none"   {{ ($settings['slider_navigation'] ?? '') === 'none'   ? 'selected' : '' }}>None</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Full Screen</label>
+                        <select name="slider_fullscreen" class="form-select">
+                            <option value="on"  {{ ($settings['slider_fullscreen'] ?? 'on') === 'on'  ? 'selected' : '' }}>On</option>
+                            <option value="off" {{ ($settings['slider_fullscreen'] ?? '') === 'off' ? 'selected' : '' }}>Off</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Custom Code -->
         <div class="col-12">
             <div class="form-card mb-4">

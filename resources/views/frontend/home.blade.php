@@ -454,13 +454,13 @@ Services</div>
     var revapi;
     jQuery(document).ready(function () {
         revapi = jQuery('.tp-banner').revolution({
-            delay: 9000,
+            delay: {{ setting('slider_delay', 9000) }},
             startwidth: 1170,
-            startheight: 500,
+            startheight: {{ setting('slider_height', 500) }},
             hideThumbs: 10,
             fullWidth: "off",
-            fullScreen: "on",
-            navigationType: "bullet",
+            fullScreen: "{{ setting('slider_fullscreen', 'on') }}",
+            navigationType: "{{ setting('slider_navigation', 'bullet') }}",
             onHoverStop: "off",
             fullScreenOffsetContainer: ""
         });
@@ -471,9 +471,13 @@ Services</div>
 <script type="text/javascript" src="{{ asset('js/elastiStack.js') }}"></script>
 <script type="text/javascript">
     new ElastiStack(document.getElementById('elasticstack'));
-    new Photostack( document.getElementById('photostack-3'), {
+    var ps = new Photostack( document.getElementById('photostack-3'), {
         callback: function(item) {}
     });
+    setInterval(function() {
+        var next = (ps.current + 1) % ps.navDots.length;
+        ps.navDots[next].click();
+    }, 4000);
 </script>
 <script type="text/javascript">
     var container = document.querySelector('#blog-mas');

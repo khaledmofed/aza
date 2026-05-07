@@ -35,8 +35,12 @@ class SettingController extends Controller
             'quote_author'     => ['nullable', 'string', 'max:255'],
             'cta_text'         => ['nullable', 'string', 'max:255'],
             'facts_heading'    => ['nullable', 'string', 'max:255'],
-            'custom_css'       => ['nullable', 'string'],
-            'custom_js'        => ['nullable', 'string'],
+            'slider_delay'      => ['nullable', 'integer', 'min:1', 'max:30'],
+            'slider_height'     => ['nullable', 'integer', 'min:300', 'max:1000'],
+            'slider_navigation' => ['nullable', 'string', 'in:bullet,none'],
+            'slider_fullscreen' => ['nullable', 'string', 'in:on,off'],
+            'custom_css'        => ['nullable', 'string'],
+            'custom_js'         => ['nullable', 'string'],
             'site_logo'        => ['nullable', 'image', 'mimes:jpeg,png,gif,webp', 'max:2048'],
             'parallax1_image'  => ['nullable', 'image', 'mimes:jpeg,png,gif,webp', 'max:4096'],
             'parallax2_image'  => ['nullable', 'image', 'mimes:jpeg,png,gif,webp', 'max:4096'],
@@ -49,7 +53,16 @@ class SettingController extends Controller
             'social_twitter', 'social_facebook', 'social_github', 'social_googleplus',
             'footer_copyright', 'quote_text', 'quote_author', 'cta_text',
             'facts_heading', 'custom_css', 'custom_js',
+            'slider_navigation', 'slider_fullscreen',
         ];
+
+        // slider_delay stored as milliseconds
+        if ($request->filled('slider_delay')) {
+            Setting::set('slider_delay', (int)$request->input('slider_delay') * 1000);
+        }
+        if ($request->filled('slider_height')) {
+            Setting::set('slider_height', $request->input('slider_height'));
+        }
 
         foreach ($textFields as $field) {
             Setting::set($field, $request->input($field));
