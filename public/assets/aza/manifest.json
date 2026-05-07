@@ -1,0 +1,55 @@
+{
+  "project": "AZA Electromechanical",
+  "website": "https://azamep.com",
+  "seeded_at": "2026-05-04",
+  "assets": {
+    "logo": "assets/aza/logo.jpg",
+    "logo_white": "assets/aza/logo-white.png",
+    "company_profile_pdf": "assets/aza/AZA-Profile.pdf",
+    "services": {
+      "commercial":  "assets/aza/services/commercial.jpg",
+      "industrial":  "assets/aza/services/industrial.jpg",
+      "data_center": "assets/aza/services/data-center.jpg",
+      "smart_farms": "assets/aza/services/smart-farms.jpg"
+    },
+    "clients": {
+      "dpworld":    "assets/aza/clients/dpworld.png",
+      "flydubai":   "assets/aza/clients/flydubai.png",
+      "snoc":       "assets/aza/clients/snoc.png",
+      "tecom":      "assets/aza/clients/tecom.png",
+      "alfuttaim":  "assets/aza/clients/alfuttaim.png",
+      "uos":        "assets/aza/clients/uos.png"
+    },
+    "team": {
+      "zeyad": "assets/aza/team/zeyad.png"
+    },
+    "about": {
+      "vision":  "assets/aza/about/vision.jpg",
+      "mission": "assets/aza/about/mission.jpg"
+    },
+    "projects": {
+      "project-1": "assets/aza/projects/project-1.jpg",
+      "project-2": "assets/aza/projects/project-2.jpg",
+      "project-3": "assets/aza/projects/project-3.jpg",
+      "project-4": "assets/aza/projects/project-4.jpg",
+      "project-5": "assets/aza/projects/project-5.jpg",
+      "project-6": "assets/aza/projects/project-6.jpg",
+      "project-7": "assets/aza/projects/project-7.jpg",
+      "project-8": "assets/aza/projects/project-8.jpg",
+      "project-9": "assets/aza/projects/project-9.jpg"
+    }
+  },
+  "database": {
+    "settings":       "site_name, tagline, email, phone, address, logos, social links, hero titles",
+    "sliders":        "3 slides using project images with AZA titles",
+    "about_sections": "1 record with vision/mission/why-choose-us content",
+    "about_images":   "3 images (vision, mission, project-3)",
+    "team_members":   "1 — Eng. Zeyad Al Shammary, Managing Director",
+    "services":       "4 — Commercial, Industrials, Data Centers, Smart Farms",
+    "clients":        "6 — DP World, Fly Dubai, SNOC, TECOM, Al Futtaim, UoS",
+    "fun_facts":      "4 — 25 yrs experience, 150 projects, 80 clients, 50 staff",
+    "testimonials":   "3 testimonials",
+    "portfolio_items":"9 projects",
+    "pages":          "4 — about, services, projects, contact"
+  }
+}
