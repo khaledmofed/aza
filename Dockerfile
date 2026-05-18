@@ -30,6 +30,16 @@ RUN { \
     echo 'max_input_time = 120'; \
 } > /usr/local/etc/php/conf.d/uploads.ini
 
+RUN { \
+    echo 'opcache.enable=1'; \
+    echo 'opcache.memory_consumption=128'; \
+    echo 'opcache.interned_strings_buffer=8'; \
+    echo 'opcache.max_accelerated_files=10000'; \
+    echo 'opcache.revalidate_freq=0'; \
+    echo 'opcache.validate_timestamps=0'; \
+    echo 'opcache.fast_shutdown=1'; \
+} > /usr/local/etc/php/conf.d/opcache.ini
+
 # ── Apache setup ─────────────────────────────────────────────────────────────
 RUN a2enmod rewrite
 
