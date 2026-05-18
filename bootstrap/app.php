@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
+
+        // Clear home page cache after any admin write operation
+        $middleware->appendToGroup('web', \App\Http\Middleware\ClearHomeCache::class);
         $middleware->replace(
             \Illuminate\Http\Middleware\ValidatePostSize::class,
             \App\Http\Middleware\ValidatePostSize::class,
