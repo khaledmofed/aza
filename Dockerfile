@@ -1,43 +1,63 @@
 FROM php:8.2-apache
 
-# Install system dependencies + Node.js 20
+# ── System deps ──────────────────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpng-dev libpq-dev libzip-dev libonig-dev ca-certificates gnupg \
+        git curl zip unzip \
+        # GD dependencies (jpeg + webp + freetype)
+        libjpeg62-turbo-dev libpng-dev libwebp-dev libxpm-dev libfreetype6-dev \
+        # PostgreSQL / other PHP ext deps
+        libpq-dev libzip-dev libonig-dev \
+        # Node.js 20
+        ca-certificates gnupg \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && docker-php-ext-install pdo pdo_pgsql pdo_mysql mbstring gd zip opcache \
+    # Configure GD with WebP + JPEG + FreeType support
+    && docker-php-ext-configure gd \
+        --with-jpeg \
+        --with-webp \
+        --with-freetype \
+    && docker-php-ext-install \
+        pdo pdo_pgsql pdo_mysql \
+        mbstring gd zip opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite
+# ── PHP ini tweaks (upload limits, memory) ───────────────────────────────────
+RUN { \
+    echo 'upload_max_filesize = 50M'; \
+    echo 'post_max_size = 50M'; \
+    echo 'memory_limit = 512M'; \
+    echo 'max_execution_time = 120'; \
+    echo 'max_input_time = 120'; \
+} > /usr/local/etc/php/conf.d/uploads.ini
+
+# ── Apache setup ─────────────────────────────────────────────────────────────
 RUN a2enmod rewrite
 
-# Set DocumentRoot to Laravel's public folder
+# Set DocumentRoot → Laravel public/
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' \
-    /etc/apache2/sites-available/000-default.conf
+        /etc/apache2/sites-available/000-default.conf
 
-# Write Apache Directory config (allow .htaccess + symlinks)
+# Directory config: allow .htaccess + symlinks
 RUN printf '<Directory /var/www/html/public>\n\tOptions +FollowSymLinks\n\tAllowOverride All\n\tRequire all granted\n</Directory>\n' \
-    > /etc/apache2/conf-available/laravel.conf \
+        > /etc/apache2/conf-available/laravel.conf \
     && a2enconf laravel
 
-# Install Composer
+# ── App setup ─────────────────────────────────────────────────────────────────
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy source
 COPY . .
 
-# Install PHP deps
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Build frontend assets
 RUN npm ci && npm run build && rm -rf node_modules
 
-# Permissions
+# Storage dirs must be writable by www-data (775 = owner+group write)
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+    && find /var/www/html/storage -type d -exec chmod 775 {} \; \
+    && find /var/www/html/storage -type f -exec chmod 664 {} \; \
+    && chmod -R 775 /var/www/html/bootstrap/cache
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
