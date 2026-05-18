@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: aza-theway
+    name: aza
     runtime: docker
     plan: free
     envVars:
@@ -13,7 +13,7 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: APP_URL
-        value: https://aza-theway.onrender.com
+        value: https://aza.onrender.com
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
