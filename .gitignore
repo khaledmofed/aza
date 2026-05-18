@@ -1,4 +1,6 @@
 *.log
+/database/*.sql
+/export_to_postgres.php
 .DS_Store
 .env
 .claude/

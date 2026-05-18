@@ -26,6 +26,14 @@ trait ImageUploadTrait
         ?int $height = null,
         ?string $oldImage = null
     ): string {
+        // Large pixel dimensions decode to huge bitmaps in RAM; shared hosting often uses 128M.
+        if (function_exists('ini_set')) {
+            @ini_set('memory_limit', '512M');
+        }
+        if (function_exists('set_time_limit')) {
+            @set_time_limit(120);
+        }
+
         // Validate file is a real image
         abort_unless(
             in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp']),
