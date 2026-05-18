@@ -1,21 +1,19 @@
 #!/bin/bash
-set -e
 
-# Render provides the real service URL in RENDER_EXTERNAL_URL
-# Use it so asset() generates correct absolute URLs
+# Use Render's actual URL for APP_URL
 if [ -n "$RENDER_EXTERNAL_URL" ]; then
     export APP_URL="$RENDER_EXTERNAL_URL"
 fi
 
 # Create storage symlink
-php artisan storage:link --force 2>/dev/null || true
+php artisan storage:link --force || true
 
-# Run pending migrations
-php artisan migrate --force 2>/dev/null || true
+# Run migrations
+php artisan migrate --force || true
 
-# Cache config / routes / views (uses updated APP_URL)
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# Cache (any failure here is non-fatal)
+php artisan config:cache || true
+php artisan route:cache  || true
+php artisan view:cache   || true
 
 exec "$@"
