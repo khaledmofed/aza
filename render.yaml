@@ -3,6 +3,7 @@ services:
     name: aza
     runtime: docker
     plan: free
+    region: frankfurt
     envVars:
       - key: APP_NAME
         value: "AZA Electromechanical"
