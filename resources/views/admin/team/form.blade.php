@@ -74,12 +74,22 @@
                         <input type="number" name="sort_order" class="form-control" min="0"
                                value="{{ old('sort_order', $member->sort_order ?? 0) }}">
                     </div>
-                    <div class="col-md-6 mb-3 d-flex align-items-end">
+                    <div class="col-md-3 mb-3 d-flex align-items-end">
                         <div class="form-check pb-2">
                             <input type="hidden" name="is_active" value="0">
                             <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active"
                                    {{ old('is_active', $member->is_active ?? true) ? 'checked' : '' }}>
                             <label class="form-check-label fw-semibold" for="is_active">Active</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 d-flex align-items-end">
+                        <div class="form-check pb-2">
+                            <input type="hidden" name="is_featured" value="0">
+                            <input class="form-check-input" type="checkbox" name="is_featured" value="1" id="is_featured"
+                                   {{ old('is_featured', $member->is_featured ?? false) ? 'checked' : '' }}>
+                            <label class="form-check-label fw-semibold" for="is_featured">
+                                Featured <small class="text-muted fw-normal">(top section)</small>
+                            </label>
                         </div>
                     </div>
                 </div>

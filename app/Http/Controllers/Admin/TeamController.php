@@ -35,12 +35,14 @@ class TeamController extends Controller
             'github'     => ['nullable', 'url'],
             'googleplus' => ['nullable', 'url'],
             'email'      => ['nullable', 'email'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
-            'is_active'  => ['boolean'],
+            'sort_order'  => ['nullable', 'integer', 'min:0'],
+            'is_active'   => ['boolean'],
+            'is_featured' => ['boolean'],
         ]);
 
-        $data['photo']     = $this->uploadImage($request->file('photo'), 'team', 400, 400);
-        $data['is_active'] = $request->boolean('is_active', true);
+        $data['photo']       = $this->uploadImage($request->file('photo'), 'team', 400, 400);
+        $data['is_active']   = $request->boolean('is_active', true);
+        $data['is_featured'] = $request->boolean('is_featured', false);
 
         TeamMember::create($data);
 
@@ -64,8 +66,9 @@ class TeamController extends Controller
             'github'     => ['nullable', 'url'],
             'googleplus' => ['nullable', 'url'],
             'email'      => ['nullable', 'email'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
-            'is_active'  => ['boolean'],
+            'sort_order'  => ['nullable', 'integer', 'min:0'],
+            'is_active'   => ['boolean'],
+            'is_featured' => ['boolean'],
         ]);
 
         if ($request->hasFile('photo')) {
@@ -74,7 +77,8 @@ class TeamController extends Controller
             unset($data['photo']);
         }
 
-        $data['is_active'] = $request->boolean('is_active');
+        $data['is_active']   = $request->boolean('is_active');
+        $data['is_featured'] = $request->boolean('is_featured');
 
         $team->update($data);
 

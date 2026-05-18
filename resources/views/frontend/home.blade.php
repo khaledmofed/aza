@@ -103,8 +103,8 @@
     {{-- ======================================================
          TEAM — Featured Member
     ======================================================= --}}
-    @if($team->isNotEmpty())
-    @php $featured = $team->first(); @endphp
+    @php $featured = $team->firstWhere('is_featured', true); @endphp
+    @if($featured)
     <div id="team">
         <div class="container">
             <div class="sixteen columns">
@@ -163,6 +163,60 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+
+    {{-- ======================================================
+         OUR TEAM — Grid
+    ======================================================= --}}
+    @php $gridTeam = $team->where('is_featured', false)->values(); @endphp
+    @if($gridTeam->count() > 0)
+    <div id="our-team">
+        <div class="container">
+            <div class="sixteen columns">
+                <div class="top-text">
+                    <h1>Our Team</h1>
+                    <div class="subline"></div>
+                    <div class="top-subtext">The people behind our success</div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="team-grid-wrap">
+                @foreach($gridTeam as $member)
+                <div class="team-grid-card" data-scrollreveal="enter bottom and move 30px over 0.8s">
+                    <div class="team-mem">
+                        <a href="{{ Storage::disk('public')->url($member->photo) }}"
+                           class="fancybox team-photo-link"
+                           rel="team-gallery"
+                           title="{{ $member->name }} — {{ $member->position }}">
+                            <img src="{{ Storage::disk('public')->url($member->photo) }}" alt="{{ $member->name }}"/>
+                        </a>
+                        <div class="social-team">
+                            <ul class="team-social">
+                                @if($member->twitter)
+                                    <li class="icon-team"><a href="{{ $member->twitter }}" target="_blank">&#xf099;</a></li>
+                                @endif
+                                @if($member->facebook)
+                                    <li class="icon-team"><a href="{{ $member->facebook }}" target="_blank">&#xf09a;</a></li>
+                                @endif
+                                @if($member->github)
+                                    <li class="icon-team"><a href="{{ $member->github }}" target="_blank">&#xf09b;</a></li>
+                                @endif
+                                @if($member->email)
+                                    <li class="icon-team"><a href="mailto:{{ $member->email }}">&#xf0e0;</a></li>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="team-grid-info">
+                        <h5>{{ $member->name }}</h5>
+                        <span>{{ $member->position }}</span>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -490,6 +544,12 @@ Services</div>
     jQuery('#owl-clients').owlCarousel({
         items: 5, loop: true, autoPlay: 3000, navigation: false,
         responsive: {0:{items:2}, 480:{items:3}, 768:{items:4}, 960:{items:5}}
+    });
+    // Team gallery lightbox
+    jQuery('.fancybox[rel="team-gallery"]').fancybox({
+        openEffect  : 'fade',
+        closeEffect : 'fade',
+        helpers: { title: { type: 'inside' } }
     });
 </script>
 @endpush

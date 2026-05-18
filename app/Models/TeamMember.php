@@ -9,10 +9,10 @@ class TeamMember extends Model
     protected $fillable = [
         'name', 'position', 'bio', 'photo',
         'twitter', 'facebook', 'github', 'googleplus', 'email',
-        'sort_order', 'is_active',
+        'sort_order', 'is_active', 'is_featured',
     ];
 
-    protected $casts = ['is_active' => 'boolean'];
+    protected $casts = ['is_active' => 'boolean', 'is_featured' => 'boolean'];
 
     public function scopeActive($query)
     {

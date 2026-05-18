@@ -3046,7 +3046,7 @@ textarea {
     padding: 12px 36px;
     border: 2px solid #333;
     color: #333;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 3px;
@@ -3059,4 +3059,163 @@ textarea {
     border-color: #c0392b;
     color: #fff;
     text-decoration: none;
+}
+
+/* Fancybox — fix z-index, missing sprite & overlay */
+.fancybox-overlay {
+    z-index: 200000 !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+}
+.fancybox-wrap {
+    z-index: 200010 !important;
+}
+.fancybox-skin {
+    z-index: 200020 !important;
+    background: #fff !important;
+    border-radius: 0 !important;
+}
+.fancybox-nav {
+    z-index: 200030 !important;
+}
+.fancybox-close {
+    z-index: 200030 !important;
+}
+.fancybox-title {
+    z-index: 200030 !important;
+}
+
+/* Replace missing sprite with CSS arrows */
+.fancybox-prev span,
+.fancybox-next span,
+.fancybox-close {
+    background-image: none !important;
+}
+.fancybox-close {
+    width: 36px !important;
+    height: 36px !important;
+    top: 8px !important;
+    right: 8px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 50% !important;
+}
+.fancybox-close::before {
+    content: "×";
+    color: #fff;
+    font-size: 26px;
+    line-height: 36px;
+    display: block;
+    text-align: center;
+}
+.fancybox-prev span,
+.fancybox-next span {
+    width: 44px !important;
+    height: 44px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 50% !important;
+    margin-top: -22px !important;
+    visibility: visible !important;
+}
+.fancybox-prev span::before,
+.fancybox-next span::before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    position: absolute;
+    top: 50%;
+    margin-top: -6px;
+}
+.fancybox-prev span::before {
+    transform: rotate(-135deg);
+    left: 17px;
+}
+.fancybox-next span::before {
+    transform: rotate(45deg);
+    left: 13px;
+}
+.fancybox-nav:hover span {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Our Team Grid Section */
+#our-team {
+    background: #fff;
+    padding: 80px 0 90px;
+}
+.team-grid-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+.team-grid-card {
+    flex: 0 0 calc(33.333% - 40px);
+    max-width: 340px;
+    text-align: center;
+}
+.team-grid-card .team-mem {
+    margin: 0 auto 18px;
+    max-width: 100%;
+}
+.team-grid-card .team-mem img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+.team-photo-link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.team-photo-link::after {
+    content: "\f002";
+    font-family: FontAwesome;
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.team-photo-link:hover::after {
+    opacity: 1;
+}
+.team-grid-info h5 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #222;
+    margin: 0 0 6px;
+}
+.team-grid-info span {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    font-family: "Montserrat", sans-serif;
+}
+@media (max-width: 768px) {
+    .team-grid-card {
+        flex: 0 0 calc(50% - 40px);
+        max-width: 100%;
+    }
+    .team-grid-card .team-mem img {
+        height: 260px;
+    }
+}
+@media (max-width: 480px) {
+    .team-grid-card {
+        flex: 0 0 100%;
+    }
 }

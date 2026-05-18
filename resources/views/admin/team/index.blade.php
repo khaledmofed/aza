@@ -11,34 +11,39 @@
     </a>
 </div>
 
-<div class="row g-4">
-    @forelse($members as $member)
-    <div class="col-sm-6 col-lg-4 col-xl-3">
-        <div class="form-card text-center h-100">
-            <img src="{{ Storage::disk('public')->url($member->photo) }}"
-                 class="rounded-circle mb-3" style="width:80px;height:80px;object-fit:cover;" alt="{{ $member->name }}"/>
-            <h6 class="fw-bold mb-0">{{ $member->name }}</h6>
-            <p class="text-muted small mb-2">{{ $member->position }}</p>
-            @if($member->is_active)
-                <span class="badge badge-status-active mb-3">Active</span>
-            @else
-                <span class="badge badge-status-inactive mb-3">Inactive</span>
-            @endif
-            <div class="d-flex gap-2 justify-content-center">
-                <a href="{{ route('admin.team.edit', $member) }}" class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-pencil"></i>
-                </a>
-                <form action="{{ route('admin.team.destroy', $member) }}" method="POST"
-                      onsubmit="return confirm('Delete this member?')">
-                    @csrf @method('DELETE')
-                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                </form>
-            </div>
-        </div>
-    </div>
+@php
+    $featured = $members->where('is_featured', true);
+    $grid     = $members->where('is_featured', false);
+@endphp
+
+{{-- Featured Section --}}
+<div class="mb-2">
+    <span class="fw-bold text-muted small text-uppercase letter-spacing-1">
+        <i class="bi bi-star-fill text-warning me-1"></i> Featured Section (top of page)
+    </span>
+</div>
+<div class="row g-4 mb-5">
+    @forelse($featured as $member)
+    @include('admin.team._card', ['member' => $member])
     @empty
     <div class="col-12">
-        <p class="text-muted">No team members yet. <a href="{{ route('admin.team.create') }}">Add the first one.</a></p>
+        <p class="text-muted small">No featured member. Edit a member and check <strong>Featured</strong>.</p>
+    </div>
+    @endforelse
+</div>
+
+{{-- Our Team Grid --}}
+<div class="mb-2">
+    <span class="fw-bold text-muted small text-uppercase">
+        <i class="bi bi-people me-1"></i> Our Team Grid (below featured)
+    </span>
+</div>
+<div class="row g-4">
+    @forelse($grid as $member)
+    @include('admin.team._card', ['member' => $member])
+    @empty
+    <div class="col-12">
+        <p class="text-muted small">No members in the grid yet.</p>
     </div>
     @endforelse
 </div>
